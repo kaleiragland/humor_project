@@ -24,12 +24,12 @@ export default async function Home() {
               href="/list"
               className="inline-block rounded-full bg-pink-500 px-6 py-3 text-sm font-semibold text-white hover:bg-pink-600 transition shadow-lg"
             >
-              Go to Bug Reports
+              Go to Rate Captions
             </Link>
           </div>
         ) : (
           <div className="mt-8 space-y-4">
-            <p className="text-sm text-zinc-600">Please sign in to view bug reports</p>
+            <p className="text-sm text-zinc-600">Please sign in to rate captions</p>
             <SignInButton />
           </div>
         )}
