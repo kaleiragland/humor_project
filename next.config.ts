@@ -9,6 +9,18 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'presigned-url-uploads.almostcrackd.ai',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'secure.almostcrackd.ai',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
 };

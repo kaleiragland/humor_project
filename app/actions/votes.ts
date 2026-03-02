@@ -54,7 +54,7 @@ export async function getUserVote(captionId: string) {
   const { data } = await supabase
     .from('caption_votes')
     .select('vote_value')
-    .eq('user_id', user.id)
+    .eq('profile_id', user.id)
     .eq('caption_id', captionId)
     .maybeSingle();
 

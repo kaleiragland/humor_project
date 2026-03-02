@@ -20,8 +20,14 @@ interface CaptionCardProps {
   userId: string;
 }
 
+const STORAGE_KEY = 'caption-index';
+
 export default function CaptionCard({ captions, userId }: CaptionCardProps) {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(() => {
+    if (typeof window === 'undefined') return 0;
+    const saved = parseInt(localStorage.getItem(STORAGE_KEY) ?? '0', 10);
+    return saved < captions.length ? saved : 0;
+  });
   const [isProcessing, setIsProcessing] = useState(false);
   const [message, setMessage] = useState('');
   const [userVote, setUserVote] = useState<number | null>(null);
@@ -36,7 +42,11 @@ export default function CaptionCard({ captions, userId }: CaptionCardProps) {
   }, [currentCaption?.id]);
 
   const moveToNext = () => {
-    setCurrentIndex((prev) => (prev < captions.length - 1 ? prev + 1 : 0));
+    setCurrentIndex((prev) => {
+      const next = prev < captions.length - 1 ? prev + 1 : 0;
+      localStorage.setItem(STORAGE_KEY, String(next));
+      return next;
+    });
   };
 
   const handleVote = async (voteValue: -1 | 1) => {

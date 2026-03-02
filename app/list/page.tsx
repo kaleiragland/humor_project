@@ -39,6 +39,7 @@ export default async function ListPage() {
       )
     `)
     .eq("is_public", true)
+    .not("content", "is", null)
     .order("created_datetime_utc", { ascending: false });
 
   if (error) {
@@ -98,6 +99,12 @@ export default async function ListPage() {
             className="rounded-full bg-white/80 px-4 py-2 text-sm font-semibold text-sky-700 hover:bg-white transition shadow"
           >
             ⬅ Home
+          </Link>
+          <Link
+            href="/upload"
+            className="rounded-full bg-purple-500 px-4 py-2 text-sm font-semibold text-white hover:bg-purple-600 transition shadow"
+          >
+            Upload Image
           </Link>
           <div className="text-sm text-white bg-black/20 px-4 py-2 rounded-full backdrop-blur">
             {user.email}

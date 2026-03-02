@@ -20,12 +20,20 @@ export default async function Home() {
             <p className="text-sm text-zinc-600">
               Signed in as: <span className="font-semibold">{user.email}</span>
             </p>
-            <Link
-              href="/list"
-              className="inline-block rounded-full bg-pink-500 px-6 py-3 text-sm font-semibold text-white hover:bg-pink-600 transition shadow-lg"
-            >
-              Go to Rate Captions
-            </Link>
+            <div className="flex flex-col gap-3 items-center">
+              <Link
+                href="/upload"
+                className="inline-block rounded-full bg-purple-500 px-6 py-3 text-sm font-semibold text-white hover:bg-purple-600 transition shadow-lg"
+              >
+                Upload Image & Get Captions
+              </Link>
+              <Link
+                href="/list"
+                className="inline-block rounded-full bg-pink-500 px-6 py-3 text-sm font-semibold text-white hover:bg-pink-600 transition shadow-lg"
+              >
+                Rate Captions
+              </Link>
+            </div>
           </div>
         ) : (
           <div className="mt-8 space-y-4">
