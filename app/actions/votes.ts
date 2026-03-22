@@ -31,8 +31,8 @@ export async function submitVote(captionId: string, voteValue: number) {
       caption_id: captionId,
       profile_id: profileData.id,
       vote_value: voteValue,
-      created_datetime_utc: new Date().toISOString(),
-      modified_datetime_utc: new Date().toISOString()
+      created_by_user_id: profileData.id,
+      modified_by_user_id: profileData.id,
     }, { onConflict: 'profile_id,caption_id' });
 
   if (error) {
