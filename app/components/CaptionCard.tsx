@@ -100,11 +100,22 @@ export default function CaptionCard({ captions, userId }: CaptionCardProps) {
 
   return (
     <div className="relative pb-6">
-      {/* Progress indicator */}
-      <div className="mb-3 text-center">
-        <span className="text-white text-sm font-semibold bg-black/30 px-4 py-2 rounded-full backdrop-blur">
-          {currentIndex + 1} / {captions.length}
-        </span>
+      {/* Progress bar */}
+      <div className="mb-4">
+        <div className="flex justify-between items-center mb-1 px-1">
+          <span className="text-white text-sm font-semibold drop-shadow">
+            Caption {currentIndex + 1} of {captions.length}
+          </span>
+          <span className="text-white text-sm font-semibold drop-shadow">
+            {Math.round(((currentIndex + 1) / captions.length) * 100)}%
+          </span>
+        </div>
+        <div className="w-full h-3 bg-white/30 rounded-full overflow-hidden backdrop-blur">
+          <div
+            className="h-full bg-gradient-to-r from-pink-500 to-purple-500 rounded-full transition-all duration-300"
+            style={{ width: `${((currentIndex + 1) / captions.length) * 100}%` }}
+          />
+        </div>
       </div>
 
       {/* Main card */}
@@ -136,25 +147,25 @@ export default function CaptionCard({ captions, userId }: CaptionCardProps) {
             </div>
           )}
 
-          <div className="flex justify-center items-center gap-3 mt-4">
+          <div className="flex justify-center items-center gap-4 mt-4">
             <button
               onClick={() => handleVote(-1)}
               disabled={isProcessing}
               className={`${
                 userVote === -1 ? 'ring-4 ring-red-300' : ''
-              } bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-xl transition transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg text-xl`}
+              } bg-red-500 hover:bg-red-600 text-white font-bold py-4 px-8 rounded-2xl transition transform hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg text-2xl flex items-center gap-2`}
               title="Downvote"
             >
-              👎
+              👎 <span className="text-base">Dislike</span>
             </button>
 
             <button
               onClick={handleSkip}
               disabled={isProcessing}
-              className="bg-gray-400 hover:bg-gray-500 text-white font-bold py-3 px-6 rounded-xl transition transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg"
+              className="bg-zinc-200 hover:bg-zinc-300 text-zinc-600 font-semibold py-3 px-5 rounded-full transition transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow text-sm"
               title="Skip"
             >
-              ⏭️
+              Skip
             </button>
 
             <button
@@ -162,10 +173,10 @@ export default function CaptionCard({ captions, userId }: CaptionCardProps) {
               disabled={isProcessing}
               className={`${
                 userVote === 1 ? 'ring-4 ring-green-300' : ''
-              } bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-xl transition transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg text-xl`}
+              } bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-8 rounded-2xl transition transform hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg text-2xl flex items-center gap-2`}
               title="Upvote"
             >
-              👍
+              👍 <span className="text-base">Like</span>
             </button>
           </div>
 

@@ -22,6 +22,12 @@ export default async function UploadPage() {
           >
             ⬅ Home
           </Link>
+          <Link
+            href="/list"
+            className="rounded-full bg-pink-500 px-4 py-2 text-sm font-semibold text-white hover:bg-pink-600 transition shadow"
+          >
+            Rate Captions
+          </Link>
           <div className="text-sm text-white bg-black/20 px-4 py-2 rounded-full backdrop-blur">
             {user.email}
           </div>
