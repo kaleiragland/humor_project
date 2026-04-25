@@ -44,7 +44,21 @@ export default async function ListPage() {
 
   if (error) {
     console.error("Supabase error:", error);
-    return <div>Error: {error.message}</div>;
+    return (
+      <main className="min-h-screen bg-gradient-to-br from-pink-200 via-purple-200 to-sky-200 px-6 py-6 flex items-center justify-center">
+        <div className="bg-white rounded-3xl shadow-2xl p-12 text-center max-w-md">
+          <p className="text-xl text-zinc-800 font-semibold mb-2">
+            We couldn&apos;t load captions right now.
+          </p>
+          <p className="text-sm text-zinc-500 mb-4">
+            Please try again in a moment. If the problem persists, contact the site admin.
+          </p>
+          <Link href="/" className="inline-block text-sky-600 hover:underline">
+            Go back
+          </Link>
+        </div>
+      </main>
+    );
   }
 
   type Caption = {

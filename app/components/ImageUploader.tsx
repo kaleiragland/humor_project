@@ -223,7 +223,11 @@ export default function ImageUploader() {
                   className="rounded-2xl bg-purple-50 border border-purple-200 px-5 py-4 text-zinc-800 text-sm leading-relaxed"
                 >
                   <span className="font-semibold text-purple-600 mr-2">{i + 1}.</span>
-                  {String(cap.content ?? cap.caption ?? JSON.stringify(cap))}
+                  {typeof cap.content === 'string' && cap.content
+                    ? cap.content
+                    : typeof cap.caption === 'string' && cap.caption
+                    ? cap.caption
+                    : <span className="italic text-zinc-400">Caption unavailable</span>}
                 </li>
               ))}
             </ul>

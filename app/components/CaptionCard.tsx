@@ -49,6 +49,16 @@ export default function CaptionCard({ captions, userId }: CaptionCardProps) {
     });
   };
 
+  const moveToPrevious = () => {
+    if (isProcessing) return;
+    setCurrentIndex((prev) => {
+      if (prev === 0) return prev;
+      const previous = prev - 1;
+      localStorage.setItem(STORAGE_KEY, String(previous));
+      return previous;
+    });
+  };
+
   const handleVote = async (voteValue: -1 | 1) => {
     if (isProcessing || !currentCaption) return;
 
@@ -148,6 +158,15 @@ export default function CaptionCard({ captions, userId }: CaptionCardProps) {
           )}
 
           <div className="flex justify-center items-center gap-4 mt-4">
+            <button
+              onClick={moveToPrevious}
+              disabled={isProcessing || currentIndex === 0}
+              className="bg-zinc-200 hover:bg-zinc-300 text-zinc-600 font-semibold py-3 px-5 rounded-full transition transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow text-sm"
+              title="Go back to the previous caption"
+            >
+              ← Previous
+            </button>
+
             <button
               onClick={() => handleVote(-1)}
               disabled={isProcessing}
