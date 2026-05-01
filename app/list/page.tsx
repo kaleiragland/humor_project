@@ -72,7 +72,7 @@ export default async function ListPage() {
     };
   };
 
-  const captions: Caption[] = (data ?? [])
+  const rawCaptions: Caption[] = (data ?? [])
     .map((row) => {
       const image = Array.isArray(row.images) ? row.images[0] : row.images;
       if (!image) return null;
@@ -89,6 +89,27 @@ export default async function ListPage() {
       };
     })
     .filter((row): row is Caption => row !== null);
+
+  // Interleave by image_id so users don't see the same image many times in a row.
+  // The DB has ~12 captions per image generated in the same batch (near-identical
+  // timestamps), so a plain created-date sort produces image clusters.
+  const buckets = new Map<string, Caption[]>();
+  for (const c of rawCaptions) {
+    const arr = buckets.get(c.image_id) ?? [];
+    arr.push(c);
+    buckets.set(c.image_id, arr);
+  }
+  const captions: Caption[] = [];
+  let remaining = rawCaptions.length;
+  while (remaining > 0) {
+    for (const arr of buckets.values()) {
+      const next = arr.shift();
+      if (next) {
+        captions.push(next);
+        remaining--;
+      }
+    }
+  }
 
   // Debug: Check if we have data
   if (captions.length === 0) {

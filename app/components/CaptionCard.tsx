@@ -23,14 +23,18 @@ interface CaptionCardProps {
 const STORAGE_KEY = 'caption-index';
 
 export default function CaptionCard({ captions, userId }: CaptionCardProps) {
-  const [currentIndex, setCurrentIndex] = useState(() => {
-    if (typeof window === 'undefined') return 0;
-    const saved = parseInt(localStorage.getItem(STORAGE_KEY) ?? '0', 10);
-    return saved < captions.length ? saved : 0;
-  });
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [isProcessing, setIsProcessing] = useState(false);
   const [message, setMessage] = useState('');
   const [userVote, setUserVote] = useState<number | null>(null);
+
+  // Restore saved index from localStorage after mount (avoids SSR hydration mismatch)
+  useEffect(() => {
+    const saved = parseInt(localStorage.getItem(STORAGE_KEY) ?? '0', 10);
+    if (saved > 0 && saved < captions.length) {
+      setCurrentIndex(saved);
+    }
+  }, [captions.length]);
 
   const currentCaption = captions[currentIndex];
 
@@ -113,10 +117,10 @@ export default function CaptionCard({ captions, userId }: CaptionCardProps) {
       {/* Progress bar */}
       <div className="mb-4">
         <div className="flex justify-between items-center mb-1 px-1">
-          <span className="text-white text-sm font-semibold drop-shadow">
+          <span className="text-purple-700 text-sm font-semibold">
             Caption {currentIndex + 1} of {captions.length}
           </span>
-          <span className="text-white text-sm font-semibold drop-shadow">
+          <span className="text-purple-700 text-sm font-semibold">
             {Math.round(((currentIndex + 1) / captions.length) * 100)}%
           </span>
         </div>
@@ -179,15 +183,6 @@ export default function CaptionCard({ captions, userId }: CaptionCardProps) {
             </button>
 
             <button
-              onClick={handleSkip}
-              disabled={isProcessing}
-              className="bg-zinc-200 hover:bg-zinc-300 text-zinc-600 font-semibold py-3 px-5 rounded-full transition transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow text-sm"
-              title="Skip"
-            >
-              Skip
-            </button>
-
-            <button
               onClick={() => handleVote(1)}
               disabled={isProcessing}
               className={`${
@@ -196,6 +191,15 @@ export default function CaptionCard({ captions, userId }: CaptionCardProps) {
               title="Upvote"
             >
               👍 <span className="text-base">Like</span>
+            </button>
+
+            <button
+              onClick={handleSkip}
+              disabled={isProcessing}
+              className="bg-zinc-200 hover:bg-zinc-300 text-zinc-600 font-semibold py-3 px-5 rounded-full transition transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow text-sm"
+              title="Skip"
+            >
+              Skip
             </button>
           </div>
 
